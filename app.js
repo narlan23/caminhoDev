@@ -5,11 +5,13 @@ let Oresp = "";
 
 btn1.addEventListener('click',function(){
     btn1.innerText = "Iniciar";
+    document.getElementById('resp').removeAttribute('disabled');
     inicialQuest();
 });
 
 function inicialQuest(){
     pergunta.innerText = "Se quer seguir para área de Front-End ou seguir para a área de Back-End?";
+    
     btn1.innerText = "Confirmar";
     Oresp = resp.value.trim().toLowerCase();
     if(Oresp === "front-end"){
@@ -18,14 +20,7 @@ function inicialQuest(){
     }else if(Oresp === "back-end"){
         pergunta.innerText =  "se quer aprender C# ou aprender Java?";
         setupNextQuestion(quest01);  
-    } 
-}
-
-function setupNextQuestion(nextFunction) {
-    btn1.onclick = function() {
-        Oresp = resp.value.trim().toLowerCase();
-        nextFunction();
-    };
+    }
 }
 
 function quest01(){
@@ -33,9 +28,11 @@ function quest01(){
         
     if(Oresp.toLowerCase() === "especializar"){
         pergunta.innerText =  "se torne um especialista!";
+        document.getElementById('resp').setAttribute('disabled',false);
         btn1.innerText = "Proximo";
         setupNextQuestion(quest02);
     }else if(Oresp.toLowerCase() === "fullstack"){
+        document.getElementById('resp').setAttribute('disabled',false);
         pergunta.innerText =  "se torne um desenvolverdor fullstack!";
         btn1.innerText = "Proximo";
         setupNextQuestion(quest02);
@@ -43,7 +40,8 @@ function quest01(){
     
 }
 
-function quest02(){    
+function quest02(){
+    document.getElementById('resp').setAttribute('disabled',false);    
     if(Oresp.toLowerCase() === "especializar"){
         pergunta.innerText = "Quais são as tecnologias que deseja especializar ou de conhecer?";
         btn1.innerText = "Escolher";
@@ -75,4 +73,13 @@ function loopQuest() {
     pergunta.innerText = "Suas Tecnologias são: " + text;
     btn1.innerText = "Inicio";
     setupNextQuestion(inicialQuest);
+}
+
+
+function setupNextQuestion(nextFunction) {
+    btn1.onclick = function() {
+        Oresp = resp.value.trim().toLowerCase();
+        resp.innerText = ""; // Limpa o campo de input
+        nextFunction();
+    };
 }
